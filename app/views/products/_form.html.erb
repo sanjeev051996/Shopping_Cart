@@ -1,0 +1,46 @@
+<%= form_for(@product) do |f| %>
+  <%= render 'shared/error_messages_products' %>
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </p>
+  <p>
+    <%= f.label :price %><br>
+    <%= f.text_field :price %>
+  </p>
+  <p>
+    <%= f.label :stock %><br>
+    <%= f.text_field :stock %>
+  </p>
+  <p>
+    <%= f.label :country %><br>
+    <%= f.text_field :country %>
+  </p>
+  <p>
+    <%= f.label :state %><br>
+    <%= f.text_field :state %>
+  </p>
+  <p>
+    <%= f.label :zip_code %><br>
+    <%= f.text_field :zip_code %>
+  </p>
+  <p>
+    <%= f.label :tax_rate %><br>
+    <%= f.text_field :tax_rate %>
+  </p>
+  <p>
+    <%= f.label :cod %><br>
+    <%= f.text_field :cod %>
+  </p>
+  <p>
+    <%= f.label :shipping_charge_rate %><br>
+    <%= f.text_field :shipping_charge_rate %>
+  </p>
+  <p>
+    <%= f.submit "Create Product" %>
+  </p>
+<% end %>

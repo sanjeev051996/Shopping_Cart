@@ -1,0 +1,23 @@
+<h2> Payment Gateway </h2>
+<%= form_for @order, :url => url_for(controller: :orders, action: :process_payment) do |f| %>
+<p>
+  <%= f.label :payment_mode %><br>
+  <%= f.select :payment_mode, ['credit card', 'net banking'] %>
+</p>
+<p>
+  <%= f.label :card_number %><br>
+  <%= f.text_field :card %>
+</p>
+<p>
+  <%= f.label :cvv %><br>
+  <%= f.text_field :cvv %>
+</p>
+<p>
+  <%= f.label :card_expiry_date %><br>
+  <%= f.text_field :card_expiry_date %>
+</p>
+<p>
+  <%= f.submit "confirm payment" %>
+</p>
+<% end %>
+<%= link_to 'Back', order_path(@order) %><br>
