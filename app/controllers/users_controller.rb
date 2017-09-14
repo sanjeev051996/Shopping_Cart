@@ -69,11 +69,9 @@ class UsersController < ApplicationController
     user = User.find(params[:id]) rescue nil
     if user.blank?
       flash[:danger] = "User does not exits"
-      redirect_to current_user
     end
     unless current_user?(user) || current_user.admin?
       flash[:danger] = "U are not authorised for this action." 
-      redirect_to(current_user)
     end
   end
 end

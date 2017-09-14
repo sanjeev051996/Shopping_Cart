@@ -1,5 +1,8 @@
 class OrdersController < ApplicationController 
 
+  before_action :valid_user, only: [:show]
+  before_action :admin_user, only: [:index, :destroy, :edit, :update]
+
   def index
     @orders = Order.all
   end
@@ -66,5 +69,13 @@ class OrdersController < ApplicationController
     params.require(:order).permit(:status, :transaction_id, :amount, :address, :country,
                                   :state, :zip_code, :card, :cvv, :card_expiry_date, :payment_mode,
                                   :shipped_on, :delivered_on, :payment_date)
+  end
+
+  def valid_user
+    order = Order.find(params[:id]) rescue nil
+    unless  order.user == current_user || current_user.admin?
+      flash[:danger] = "U are not authorised for this action"
+      redirect_to current_user
+    end
   end
 end
