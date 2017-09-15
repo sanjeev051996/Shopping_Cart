@@ -21,7 +21,7 @@
 <%= "Total order amount will be: #{sprintf("%.2f",current_user.cart.sub_total)}" %><br>
 <%= "Total order tax will be: #{sprintf("%.2f",current_user.cart.total_tax)}" %><br>
 <br>
-<%= link_to "Modify Cart", current_user.cart %><br>
+<%= link_to "Modify Cart", cart_path %><br>
 
 <%= form_for(@order) do |f| %>
   <p>

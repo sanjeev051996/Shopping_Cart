@@ -1,9 +1,8 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate, except: [:new, :create]
-  before_action :authorised_user, only: [:show, :edit, :update]
-  before_action :admin_user, only: [:index, :destroy]
-  before_action :load_user, except: [:index, :new, :create]
+  skip_before_action :authenticate, only: [:new, :create]
+  skip_before_action :admin_user?, except: [:index, :destroy, :show]
+  before_action :load_user, only: [:edit, :update, :show, :destroy]
   
   def index
     @users = User.all
@@ -18,27 +17,25 @@ class UsersController < ApplicationController
   end
 
   def edit
-    #binding.pry
+    
   end
 
   def create
-    #binding.pry
     @user = User.new(user_params)
     if @user.save
     	log_in @user
       @user.create_cart
     	flash[:success] = "Welcome to the Sample App!"
-      redirect_to current_user
+      redirect_to profile_path
     else
       render 'new'
     end
   end
 
   def update
-    #binding.pry
     if @user.update_attributes(user_params) 
     	flash[:success] = "Profile updated"
-      redirect_to current_user
+      redirect_to profile_path
     else
       render 'edit'
     end
@@ -50,28 +47,29 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
 
+  def profile
+    @user = current_user
+    render 'show'
+  end
+
+  def profile_settings
+    @user = current_user
+    render '_update_form'
+  end
+
   private
 
   def load_user
-  	@user = User.find(params[:id]) rescue nil
+    @user = current_user unless current_user.admin?
+    @user = User.find(params[:id]) if current_user.admin? rescue nil
     if @user.blank?
       flash[:danger] = "User does not exits"
-      redirect_to current_user
+      redirect_to root_url 
     end
+    @user
   end
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :contact, :dob, :address, :country, :state)
-  end
-
-  def authorised_user
-    #binding.pry
-    user = User.find(params[:id]) rescue nil
-    if user.blank?
-      flash[:danger] = "User does not exits"
-    end
-    unless current_user?(user) || current_user.admin?
-      flash[:danger] = "U are not authorised for this action." 
-    end
   end
 end

@@ -17,9 +17,9 @@
       <td><%= cart_item.price %></td>
       <td><%= cart_item.tax_rate %></td>
       <td><%= sprintf("%.2f", cart_item.total_price) %></td>
-      <td><%= link_to "Add (+1)", cart_item_add_path(id: cart_item.id), method: :post, remote: true %><td>
-      <td><%= link_to "Reduce (-1)", cart_item_reduce_path(id: cart_item.id), method: :post, remote: true %><td>
-      <td><%= link_to "Remove item", cart_item_path(cart_item), method: :delete %><td>
+      <td><%= link_to "Add (+1)", add_quantity_path(id: cart_item.id), method: :post, remote: true %><td>
+      <td><%= link_to "Reduce (-1)", reduce_quantity_path(id: cart_item.id), method: :post, remote: true %><td>
+      <td><%= link_to "Remove item", remove_path(id: cart_item.id), method: :delete, remote: true %><td>
   <% end %>
 </table>
 
@@ -30,4 +30,4 @@
 
 <%= link_to "Proceed to checkout", new_order_path %>
 <%= link_to "Add items", products_path %>
-<%= link_to "Back to your profile", current_user %>
+<%= link_to "Back to your profile", profile_path %>

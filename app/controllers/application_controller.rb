@@ -1,16 +1,20 @@
 class ApplicationController < ActionController::Base
 	
   protect_from_forgery with: :exception
-  include SessionsHelper
+  include UsersSession
+
+  before_action :authenticate #To check wheather user is logged in
+  before_action :admin_user? #To check wheather user is admin
   
-  def admin_user
+  def admin_user?
     unless current_user.admin?
-      flash[:danger] = "U are not authorised for this action."
-      redirect_to(current_user) 
+      flash[:danger] = "You are not authorised for this action."
+      redirect_to profile_path 
     end
   end
 
   def authenticate
+    #binding.pry
     unless logged_in?
       flash[:danger] = "Please log in." 
       redirect_to login_url

@@ -13,7 +13,7 @@
   <%= @user.dob %>
 </p>
 <p>
-  <strong>CONTACT:</strong>
+  <strong>Phone:</strong>
   <%= @user.contact %>
 </p>
 <p>
@@ -32,10 +32,11 @@
 <%= render @user.orders %>
 <br>
 <%= link_to 'Users List', users_path if @user.admin? %>
-<%= link_to 'Settings', edit_user_path %>
+<%= link_to 'Settings', update_profile_path  if current_user == @user && !@user.admin? %>
+<%= link_to 'Change profile details', edit_user_path(@user) if current_user.admin? %>
 <%= link_to 'Add Products', new_product_path if @user.admin? %>
-<%= link_to 'Your Cart', current_user.cart %>
+<%= link_to 'Your Cart', cart_path %>
 <%= link_to 'Manage Orders', orders_path if current_user.admin? %>
 <%= link_to 'View all products', products_path if current_user == @user %>
-<%= link_to 'Log out', logout_path, method: :delete if current_user == @user %>
+<%= link_to 'Log out', logout_path, method: :delete  %>
 <%= link_to 'Back to Admin Profile', current_user unless current_user == @user %>

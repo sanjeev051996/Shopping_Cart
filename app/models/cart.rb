@@ -14,10 +14,10 @@ class Cart < ApplicationRecord
   def total_tax
     sum = 0
     self.cart_items.each do |cart_item|
-      if cart_item.tax_rate < 1 
-        sum += cart_item.quantity * cart_item.price * cart_item.tax_rate
+      if cart_item.product.tax_rate < 1 
+        sum += cart_item.quantity * cart_item.product.price * cart_item.product.tax_rate
       else
-        sum += cart_item.quantity * cart_item.price * cart_item.tax_rate / 100
+        sum += cart_item.quantity * cart_item.product.price * cart_item.product.tax_rate / 100
       end
     end
     return sum

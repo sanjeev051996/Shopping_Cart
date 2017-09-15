@@ -1,4 +1,4 @@
-<%= form_for(@user) do |f| %>
+<%= form_for @user, url: url_for(controller: :users, action: :create) do |f| %>
   <%= render 'shared/error_messages' %>
   <p>
     <%= f.label :name %><br>
@@ -9,7 +9,7 @@
     <%= f.text_field :email %>
   </p>
   <p>
-    <%= f.label :contact %><br>
+    <%= f.label :phone %><br>
     <%= f.text_field :contact %>
   </p>
   <p>
@@ -40,3 +40,5 @@
     <%= f.submit "Create my account" %>
   </p>
 <% end %>
+<br>
+<%= link_to "Back", root_url %>

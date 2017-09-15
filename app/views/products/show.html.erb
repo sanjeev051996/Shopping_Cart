@@ -41,5 +41,5 @@
 </p>
 <%= link_to 'products List', products_path %>
 <%= link_to 'Update product', edit_product_path if current_user.admin? %>
-<%= link_to 'Add to Cart', cart_items_path(product_id: @product.id), method: :post %>
-<%= link_to 'Back to profile', current_user %>
+<%= link_to 'Add to Cart', add_to_cart_path(product_id: @product.id), method: :post %>
+<%= link_to 'Back to profile', profile_path %>

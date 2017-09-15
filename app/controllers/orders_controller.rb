@@ -1,14 +1,17 @@
 class OrdersController < ApplicationController 
 
-  before_action :valid_user, only: [:show]
-  before_action :admin_user, only: [:index, :destroy, :edit, :update]
+  skip_before_action :admin_user?, except: [:index, :destroy, :edit, :update]
+  before_action :load_order, except: [:index, :new, :create]
 
   def index
     @orders = Order.all
   end
 
   def show
-    @order = Order.find(params[:id]) rescue nil
+    unless @order.user == current_user || current_user.admin?
+      flash[:danger] = "This order does not belongs to you"
+    redirect_to profile_path 
+    end
   end
 
   def new
@@ -16,16 +19,16 @@ class OrdersController < ApplicationController
   end
 
   def edit
-    @order = Order.find(params[:id]) rescue nil
+
   end
 
   def create
-    @order = Order.new(order_params)
+    @order = Order.new(order_params)              
     @order.user = current_user
     @order.save
     @current_user.cart.cart_items.each do |item|
-      details = {order_id: @order.id, product_id: item.product_id, price: item.price,
-                 tax_rate: item.tax_rate, quantity: item.quantity}
+      details = {order_id: @order.id, product_id: item.product_id, price: item.product.price,
+                 tax_rate: item.product.tax_rate, quantity: item.quantity}
       order_item = OrderItem.new(details)
       order_item.save
       item.destroy
@@ -37,24 +40,20 @@ class OrdersController < ApplicationController
   end
 
   def update
-    @order = Order.find(params[:id]) rescue nil
     @order.update_attributes(order_params) 
     redirect_to @order
   end
 
   def destroy
-    @order = Order.find(params[:id]) rescue nil
     @order.destroy
     redirect_to orders_path
   end
 
   def payment
-    @order = Order.find(params[:id]) rescue nil
     render 'payment_form' 
   end
 
   def process_payment
-    @order = Order.find(params[:id]) rescue nil
     @order.update_attributes(order_params)
     @order.status = "paid"
     @order.transaction_id = SecureRandom.hex(10)
@@ -71,11 +70,11 @@ class OrdersController < ApplicationController
                                   :shipped_on, :delivered_on, :payment_date)
   end
 
-  def valid_user
-    order = Order.find(params[:id]) rescue nil
-    unless  order.user == current_user || current_user.admin?
-      flash[:danger] = "U are not authorised for this action"
-      redirect_to current_user
+  def load_order
+    @order = Order.find(params[:id]) rescue nil
+    if @order.blank?
+      flash[:danger] = "Order Does not exists"
+      redirect_to profile_path
     end
   end
 end

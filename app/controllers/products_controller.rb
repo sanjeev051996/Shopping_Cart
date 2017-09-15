@@ -1,8 +1,8 @@
 class ProductsController < ApplicationController
 
-  before_action :authenticate
-  before_action :admin_user, except: [:index, :show]
+  skip_before_action :admin_user?, only: [:index, :show]
   before_action :load_product, except: [:index, :new, :create]
+  
 	def index
     @products = Product.all
   end
@@ -16,11 +16,11 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    #binding.pry
+    
   end
 
   def create
-    #binding.pry
+    
     @product = Product.new(product_params)
     if @product.save
     	flash[:success] = "Product created!"
@@ -31,7 +31,7 @@ class ProductsController < ApplicationController
   end
 
   def update
-    #binding.pry
+    
     if @product.update_attributes(product_params) 
     	flash[:success] = "Product updated!"
       redirect_to @product
