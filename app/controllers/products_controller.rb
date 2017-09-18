@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
   skip_before_action :admin_user?, only: [:index, :show]
   before_action :load_product, except: [:index, :new, :create]
   
-	def index
+  def index
     @products = Product.all
   end
 
@@ -20,10 +20,9 @@ class ProductsController < ApplicationController
   end
 
   def create
-    
     @product = Product.new(product_params)
     if @product.save
-    	flash[:success] = "Product created!"
+      flash[:success] = "Product created!"
       redirect_to @product
     else
       render 'new'
@@ -31,9 +30,8 @@ class ProductsController < ApplicationController
   end
 
   def update
-    
     if @product.update_attributes(product_params) 
-    	flash[:success] = "Product updated!"
+      flash[:success] = "Product updated!"
       redirect_to @product
     else
       render 'edit'

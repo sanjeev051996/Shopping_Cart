@@ -10,11 +10,15 @@ class OrdersController < ApplicationController
   def show
     unless @order.user == current_user || current_user.admin?
       flash[:danger] = "This order does not belongs to you"
-    redirect_to profile_path 
+    redirect_to profile_users_path 
     end
   end
 
   def new
+    if current_user.cart.cart_items.count == 0
+      flash[:danger] = "Your cart is empty, please add items"
+      redirect_to display_carts_path
+    end
     @order = Order.new
   end
 
@@ -59,6 +63,10 @@ class OrdersController < ApplicationController
     @order.transaction_id = SecureRandom.hex(10)
     @order.payment_date = @order.updated_at.to_date 
     @order.save
+    @order.order_items.each do |item|
+      item.product.stock -= item.quantity
+      item.product.save
+    end 
     redirect_to @order
   end
 
@@ -74,7 +82,7 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id]) rescue nil
     if @order.blank?
       flash[:danger] = "Order Does not exists"
-      redirect_to profile_path
+      redirect_to profile_users_path
     end
   end
 end

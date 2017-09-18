@@ -52,8 +52,8 @@
 <%= "Total order tax is: #{sprintf("%.2f", @order.tax)}" %><br>
 <br>
 <br>
-<%= link_to 'Make Payment', order_pay_path(id: @order.id), method: :post if @order.status == "unpaid" %>
+<%= link_to 'Pay', order_pay_orders_path(id: @order.id), method: :post if @order.status == "unpaid" %>
 <br>
 <br>
 <%= link_to 'All orders', orders_path  if current_user.admin? %>
-<%= link_to 'Back to your Profile', profile_path %>
+<%= link_to 'Back to your Profile', profile_users_path %>

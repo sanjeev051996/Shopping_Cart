@@ -23,10 +23,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-    	log_in @user
+      log_in @user
       @user.create_cart
-    	flash[:success] = "Welcome to the Sample App!"
-      redirect_to profile_path
+      flash[:success] = "Welcome to the Sample App!"
+      redirect_to profile_users_path
     else
       render 'new'
     end
@@ -34,8 +34,8 @@ class UsersController < ApplicationController
 
   def update
     if @user.update_attributes(user_params) 
-    	flash[:success] = "Profile updated"
-      redirect_to profile_path
+      flash[:success] = "Profile updated"
+      redirect_to profile_users_path
     else
       render 'edit'
     end

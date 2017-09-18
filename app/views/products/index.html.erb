@@ -13,11 +13,12 @@
       <td><%= product.description %></td>
       <td><%= product.price %></td>
       <td><%= product.stock %></td>
-      <td><%= link_to 'Add to Cart', add_to_cart_path(product_id: product.id), method: :post %></td>
+      <td><%= link_to 'Add to Cart', add_item_carts_path(product_id: product.id), method: :post %></td>
       <td><%= link_to 'View complete details', product_path(product) %></td>
       <td><%= link_to 'Remove product', product_path(product), method: :delete,
               data: { confirm: 'Are you sure?' }  if current_user.admin? %></td>
   <% end %>
 </table>
-<%= link_to 'Back to your profile', profile_path %>
+<%= link_to 'Back to your profile', profile_users_path %>
+<%= link_to 'Go to cart', display_carts_path %>
 <%= link_to 'Add product', new_product_path if current_user.admin? %>

@@ -9,15 +9,14 @@ class ApplicationController < ActionController::Base
   def admin_user?
     unless current_user.admin?
       flash[:danger] = "You are not authorised for this action."
-      redirect_to profile_path 
+      redirect_to profile_users_path 
     end
   end
 
   def authenticate
-    #binding.pry
     unless logged_in?
       flash[:danger] = "Please log in." 
-      redirect_to login_url
+      redirect_to login_sessions_url
     end
   end
   

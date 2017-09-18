@@ -14,20 +14,19 @@
     <tr>
       <td><%= cart_item.product.name %></td>
       <td><%= cart_item.quantity %></td>
-      <td><%= cart_item.price %></td>
-      <td><%= cart_item.tax_rate %></td>
+      <td><%= cart_item.product.price %></td>
+      <td><%= cart_item.product.tax_rate %></td>
       <td><%= sprintf("%.2f", cart_item.total_price) %></td>
-      <td><%= link_to "Add (+1)", add_quantity_path(id: cart_item.id), method: :post, remote: true %><td>
-      <td><%= link_to "Reduce (-1)", reduce_quantity_path(id: cart_item.id), method: :post, remote: true %><td>
-      <td><%= link_to "Remove item", remove_path(id: cart_item.id), method: :delete, remote: true %><td>
+      <td><%= link_to "Add (+1)", add_quantity_carts_path(id: cart_item.id), method: :post, remote: true %>
+      <td>
+      <td><%= link_to "Reduce (-1)", reduce_quantity_carts_path(id: cart_item.id), method: :post, remote:      true %><td>
+      <td><%= link_to "Remove item", remove_item_carts_path(id: cart_item.id), method: :delete, remote: true  %><td>
   <% end %>
 </table>
-
 <br>
 <%= "Total Cart Amount: #{sprintf("%.2f",current_user.cart.sub_total)}" %><br>
 <%= "Total Cart Tax: #{sprintf("%.2f",current_user.cart.total_tax)}" %><br>
 <br>
-
 <%= link_to "Proceed to checkout", new_order_path %>
 <%= link_to "Add items", products_path %>
-<%= link_to "Back to your profile", profile_path %>
+<%= link_to "Back to your profile", profile_users_path %>

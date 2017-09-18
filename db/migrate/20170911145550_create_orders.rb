@@ -12,7 +12,7 @@ class CreateOrders < ActiveRecord::Migration[5.1]
       t.float :tax
       t.date :shipped_on
       t.date :delivered_on
-      t.datetime :payment_date
+      t.date :payment_date
       t.string :payment_mode
       t.string :card 
       t.string :cvv

@@ -7,14 +7,13 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:session][:email])
-    # binding.pry | byebug
     if user && user.authenticate(params[:session][:password])
       log_in user
       flash[:success] = 'You have successfully logged in'
-      redirect_to profile_path 
+      redirect_to profile_users_path 
     else
       flash[:danger] = 'Invalid email/password combination'
-  	  render 'new'
+      render 'new'
     end
   end
   

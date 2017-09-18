@@ -1,3 +1,6 @@
+<div class="wrapper">
+<marquee behavior="alternate"><span class="marquee"><h2>Please confirm your order</h2></span></marquee>
+</div>
 <h2> Your Cart Contains </h2>
 <table>
   <tr>
@@ -12,8 +15,8 @@
     <tr>
       <td><%= cart_item.product.name %></td>
       <td><%= cart_item.quantity %></td>
-      <td><%= cart_item.price %></td>
-      <td><%= cart_item.tax_rate %></td>
+      <td><%= cart_item.product.price %></td>
+      <td><%= cart_item.product.tax_rate %></td>
       <td><%= sprintf("%.2f", cart_item.total_price) %></td>
   <% end %>
 </table>
@@ -21,8 +24,7 @@
 <%= "Total order amount will be: #{sprintf("%.2f",current_user.cart.sub_total)}" %><br>
 <%= "Total order tax will be: #{sprintf("%.2f",current_user.cart.total_tax)}" %><br>
 <br>
-<%= link_to "Modify Cart", cart_path %><br>
-
+<%= link_to "Modify Cart", display_carts_path %><br>
 <%= form_for(@order) do |f| %>
   <p>
     <%= f.label :shipping_address %><br>

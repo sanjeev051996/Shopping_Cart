@@ -11,6 +11,7 @@ class Cart < ApplicationRecord
     end
     return sum
   end
+  
   def total_tax
     sum = 0
     self.cart_items.each do |cart_item|
