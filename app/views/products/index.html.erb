@@ -13,9 +13,9 @@
       <td><%= product.description %></td>
       <td><%= product.price %></td>
       <td><%= product.stock %></td>
-      <td><%= link_to 'Add to Cart', add_item_carts_path(product_id: product.id), method: :post %></td>
+      <td><%= button_to 'Add to Cart', add_item_carts_path(product_id: product.id), method: :post %></td>
       <td><%= link_to 'View complete details', product_path(product) %></td>
-      <td><%= link_to 'Remove product', product_path(product), method: :delete,
+      <td><%= button_to 'Remove product', product_path(product), method: :delete,
               data: { confirm: 'Are you sure?' }  if current_user.admin? %></td>
   <% end %>
 </table>

@@ -9,7 +9,7 @@ class CreateOrders < ActiveRecord::Migration[5.1]
       t.string :zip_code
       t.float :shipping_cost
       t.float :import_duty
-      t.float :tax
+      t.float :tax, default: 0
       t.date :shipped_on
       t.date :delivered_on
       t.date :payment_date
@@ -17,7 +17,7 @@ class CreateOrders < ActiveRecord::Migration[5.1]
       t.string :card 
       t.string :cvv
       t.date :card_expiry_date
-      t.float :amount
+      t.float :amount, default: 0
       t.references :user, foreign_key: true
       t.timestamps
     end

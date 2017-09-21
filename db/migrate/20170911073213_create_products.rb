@@ -5,9 +5,6 @@ class CreateProducts < ActiveRecord::Migration[5.1]
     	t.text :description
     	t.float :price
     	t.integer :stock
-    	t.string :country
-    	t.string :state
-    	t.string :zip_code
     	t.float :tax_rate
     	t.boolean :cod
     	t.float :shipping_charge_rate

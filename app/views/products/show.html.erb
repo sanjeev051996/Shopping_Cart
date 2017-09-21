@@ -16,18 +16,6 @@
   <%= @product.stock %>
 </p>
 <p>
-  <strong>COUNTRY:</strong>
-  <%= @product.country %>
-</p>
-<p>
-  <strong>STATE:</strong>
-  <%= @product.state %>
-</p>
-<p>
-  <strong>ZIP CODE:</strong>
-  <%= @product.zip_code %>
-</p>
-<p>
   <strong>TAX RATE:</strong>
   <%= @product.tax_rate %>
 </p>
@@ -39,8 +27,8 @@
   <strong>Shipping Charge Rate:</strong>
   <%= @product.shipping_charge_rate %>
 </p>
+<%= button_to 'Add to Cart', add_item_carts_path(product_id: @product.id), method: :post %>
 <%= link_to 'products List', products_path %>
 <%= link_to 'Update product', edit_product_path if current_user.admin? %>
-<%= link_to 'Add to Cart', add_item_carts_path(product_id: @product.id), method: :post %>
 <%= link_to 'Go to cart', display_carts_path %>
 <%= link_to 'Back to profile', profile_users_path %>

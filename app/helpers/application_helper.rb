@@ -1,3 +1,3 @@
-module ApplicationHelper
-	include UsersSession
+module ApplicationHelper 
+
 end

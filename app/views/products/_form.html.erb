@@ -1,5 +1,5 @@
 <%= form_for(@product) do |f| %>
-  <%= render 'shared/error_messages_products' %>
+  <%= render partial: 'shared/error_messages', locals: {object: @product} %>
   <p>
     <%= f.label :name %><br>
     <%= f.text_field :name %>
@@ -17,18 +17,6 @@
     <%= f.text_field :stock %>
   </p>
   <p>
-    <%= f.label :country %><br>
-    <%= f.text_field :country %>
-  </p>
-  <p>
-    <%= f.label :state %><br>
-    <%= f.text_field :state %>
-  </p>
-  <p>
-    <%= f.label :zip_code %><br>
-    <%= f.text_field :zip_code %>
-  </p>
-  <p>
     <%= f.label :tax_rate %><br>
     <%= f.text_field :tax_rate %>
   </p>
@@ -41,6 +29,6 @@
     <%= f.text_field :shipping_charge_rate %>
   </p>
   <p>
-    <%= f.submit "Create Product" %>
+    <%= f.submit "Submit" %>
   </p>
 <% end %>

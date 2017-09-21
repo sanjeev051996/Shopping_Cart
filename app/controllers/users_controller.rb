@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   skip_before_action :authenticate, only: [:new, :create]
-  skip_before_action :admin_user?, except: [:index, :destroy, :show]
+  skip_before_action :admin_user?, except: [:index, :destroy, :show, :edit]
   before_action :load_user, only: [:edit, :update, :show, :destroy]
   
   def index
@@ -23,6 +23,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      UserMailer.welcome_email(@user).deliver_later
       log_in @user
       @user.create_cart
       flash[:success] = "Welcome to the Sample App!"
@@ -54,22 +55,22 @@ class UsersController < ApplicationController
 
   def profile_settings
     @user = current_user
-    render '_update_form'
+    render '_form'
   end
 
   private
 
   def load_user
-    @user = current_user unless current_user.admin?
-    @user = User.find(params[:id]) if current_user.admin? rescue nil
+    @user = (User.find(params[:id]) rescue nil)
     if @user.blank?
       flash[:danger] = "User does not exits"
-      redirect_to root_url 
+      redirect_to current_user 
+    else
+      @user
     end
-    @user
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :contact, :dob, :address, :country, :state)
+    params.require(:user).permit(:name, :email, :password, :phone, :dob, :address, :country, :state)
   end
 end

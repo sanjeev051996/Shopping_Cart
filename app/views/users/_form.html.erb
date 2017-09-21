@@ -1,5 +1,5 @@
-<%= form_for @user, url: url_for(controller: :users, action: :create) do |f| %>
-  <%= render 'shared/error_messages' %>
+<%= form_for @user do |f| %>
+  <%= render partial: 'shared/error_messages', locals: {object: @user} %>
   <p>
     <%= f.label :name %><br>
     <%= f.text_field :name %>
@@ -10,7 +10,7 @@
   </p>
   <p>
     <%= f.label :phone %><br>
-    <%= f.text_field :contact %>
+    <%= f.text_field :phone %>
   </p>
   <p>
     <%= f.label :dob %><br>
@@ -37,8 +37,7 @@
     <%= f.text_field :password_confirmation %>
   </p>
   <p>
-    <%= f.submit "Create my account" %>
+    <%= f.submit "Submit" %>
   </p>
 <% end %>
 <br>
-<%= link_to "Back", root_url %>

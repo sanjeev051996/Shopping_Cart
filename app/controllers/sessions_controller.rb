@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
  
   skip_before_action :admin_user? 
   skip_before_action :authenticate, except: :destroy
+
   def new
   end
 
@@ -18,7 +19,7 @@ class SessionsController < ApplicationController
   end
   
   def destroy
-  	log_out
+    log_out
     flash[:success] = "You have Successfully logged out"
     redirect_to root_url
   end

@@ -5,21 +5,22 @@ class CartsController < ApplicationController
   before_action :find_product, only: :add_item
 
   def show
-    @cart = current_user.cart
+    
   end
 
   def add_item
     # If cart already has this product then find the relevant cart_item and iterate quantity otherwise create a new cart_item for this product
-    if is_present?(@chosen_product)
+    if is_present?(@product)
       # Find the cart_item with the @chosen_product
-      @cart_item = current_user.cart.cart_items.find_by(product_id: @chosen_product)
-      add_quantity
+      @cart_item = current_user.cart.cart_items.find_by(product_id: @product.id)
+      flash[:danger] = "Item present in cart, update quantity if needed" 
     else
-      details = {cart_id: current_user.cart.id, product_id: @chosen_product.id, quantity: 1}  
+      details = { cart_id: current_user.cart.id, product_id: @product.id, quantity: 1,
+                  total_price: @product.price * (1 + @product.tax_rate / 100) }  
       @cart_item = CartItem.new(details)
-      @cart_item.save 
-      redirect_to display_carts_path
+      @cart_item.save
     end 
+    redirect_to display_carts_path
   end
 
   def destroy
@@ -27,24 +28,17 @@ class CartsController < ApplicationController
     redirect_to profile_users_path
   end
 
-  def add_quantity
-    if @cart_item.product.stock - @cart_item.quantity <= 0
+  def update_quantity
+    if params[:cart_item][:quantity].to_i <= 0
+      flash[:danger] = "Quantity can not be less than 1"  
+    elsif @cart_item.product.stock - params[:cart_item][:quantity].to_i <= 0
       flash[:danger] = "Product in stock is less than its quantity in cart"
     else
-      @cart_item.quantity = 1 if @cart_item.quantity.blank?
-      @cart_item.quantity += 1 unless @cart_item.quantity.blank?
-      @cart_item.save
+      params[:cart_item][:total_price] = params[:cart_item][:quantity].to_i * @cart_item.product.price * (1 + @cart_item.product.tax_rate / 100)
+      unless @cart_item.update_attributes(cart_item_params)
+        flash[:danger] = @cart_item.errors.full_messages
+      end
     end
-    redirect_to display_carts_path
-  end
-
-  def reduce_quantity
-    if @cart_item.quantity > 1
-      @cart_item.quantity -= 1
-    else
-      @cart_item.destroy
-    end
-    @cart_item.save
     redirect_to display_carts_path
   end
 
@@ -56,7 +50,7 @@ class CartsController < ApplicationController
   private
 
   def load_item
-    @cart_item = CartItem.find(params[:id]) rescue nil
+    @cart_item = CartItem.find(params[:item_id]) rescue nil
     if @cart_item.blank?
       flash[:danger] = "This Item Does not belongs to your cart"
       redirect_to display_carts_path
@@ -64,17 +58,21 @@ class CartsController < ApplicationController
   end
 
   def find_product
-  	@chosen_product = Product.find(params[:product_id]) rescue nil
-    if @chosen_product.blank?
+    @product = Product.find(params[:product_id]) rescue nil
+    if @product.blank?
       flash[:danger] = "Product does not exists"
       redirect_to products_path
-    elsif @chosen_product.stock == 0
+    elsif @product.stock == 0
       flash[:danger] = "Product is out of stock! We will notify you whenever it is back in stock"
       redirect_to products_path
     end
   end
 
   def is_present?(product)
-  	current_user.cart.products.include?(product)
+    current_user.cart.cart_items.exists?(product_id: product.id)
+  end
+
+  def cart_item_params
+    params.require(:cart_item).permit(:quantity, :total_price)
   end
 end

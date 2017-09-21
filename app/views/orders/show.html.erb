@@ -1,3 +1,14 @@
+<div class="wrapper">
+  <marquee behavior="alternate"><span class="marquee">
+    <h4>
+      <% if @order.status == "unpaid" %>
+        <%= "Your order payment is pending. Kindly make the payment otherwise order will be cancelled"  %>
+      <% else %>
+      <%= "your order status is #{@order.status}" %>
+      <% end %>
+    </h4></span>
+  </marquee>
+</div>
 <h1>Order Details</h1>
 <table>
   <tr>
@@ -52,7 +63,7 @@
 <%= "Total order tax is: #{sprintf("%.2f", @order.tax)}" %><br>
 <br>
 <br>
-<%= link_to 'Pay', order_pay_orders_path(id: @order.id), method: :post if @order.status == "unpaid" %>
+<%= link_to 'Pay', pay_orders_path(id: @order.id), method: :post if @order.status == "unpaid" %>
 <br>
 <br>
 <%= link_to 'All orders', orders_path  if current_user.admin? %>
