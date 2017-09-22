@@ -167,9 +167,9 @@ RSpec.describe UsersController, type: :controller do
       session[:user_id] = @user.id
     end
 
-    it "renders the _form template" do
+    it "renders the edit template" do
       get :profile_settings
-      expect(response).to render_template("_form")
+      expect(response).to render_template("edit")
       response.body.should eq ""
     end
   end

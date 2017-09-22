@@ -55,7 +55,7 @@ class UsersController < ApplicationController
 
   def profile_settings
     @user = current_user
-    render '_form'
+    render 'edit'
   end
 
   private
