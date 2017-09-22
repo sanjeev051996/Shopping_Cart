@@ -64,7 +64,7 @@ class UsersController < ApplicationController
     @user = (User.find(params[:id]) rescue nil)
     if @user.blank?
       flash[:danger] = "User does not exits"
-      redirect_to current_user 
+      redirect_to profile_users_path 
     else
       @user
     end

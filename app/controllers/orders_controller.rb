@@ -53,7 +53,7 @@ class OrdersController < ApplicationController
         params[:order].merge!({ status: "paid", transaction_id: SecureRandom.hex(10), payment_date: DateTime.now })
         @order.update_attributes!(order_params) 
         flash[:success] = "Your Payment transaction is successful. Order received successfully and will be delivered soon"
-        OrderMailer.order_email(@order).deliver_now
+        OrderMailer.order_email(@order).deliver_later
         redirect_to @order
       end
     rescue Exception => e
