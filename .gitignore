@@ -1,0 +1,6 @@
+git ignore "*.log"
+git ignore "*.pid"
+git ignore "/tmp/cache/assets/sprockets/v3.0"
+git ignore "cred.txt"
+# add an exception (using !) to the preceding rule to track a specific file e.g. !package.json
+

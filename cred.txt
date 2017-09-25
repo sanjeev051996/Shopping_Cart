@@ -1,0 +1,116 @@
+-------------------------------------------
+Startup
+
+1. export DISPLAY=:0.0 (for gitk) export DISABLE_SPRING=true (for rails c)
+2. start X-server from start menu (for gitk)
+3. rvm use ruby@gemset
+4.github tab open, project folder open
+5. navigate to project directory
+6.Js runtime managment for new rails app(node.js, v8,libv8,therubyracers) or take cache files 
+
+-------------------------------------------------------------
+PostGreSQL
+
+user: Sanjee
+Database: first_database
+psql -U Sanjee psql
+\q,\du,\l, create database, ALTER USER __ ;, DROP USER __ ;CREATE USER __ WITH PASSWORD ___;
+/usr/sbin/pg_ctl -D /usr/share/postgresql/data -l log.txt start   (starting server)
+libpq-dev required
+---------------------------------------------------------------------------------
+Git username
+
+sanjeev051996
+-----------------------------------------------------
+
+Stripe
+
+41111111111111    // 411, 111
+
+----------------------------------------------
+
+Paypal
+
+
+-------------------------------------
+Basic cygwin Commands
+
+cd ..
+cd directory name
+cd c:
+clear
+echo "  ____  " >> ~/file_name  (to add content)
+\ls
+git terminal file : i for editing, enter, :wq, esc for save, :q for exit
+shift + insert for select paste
+
+-------------------------------
+Basic Git Commands
+
+git config --global user.name "Mona Lisa"
+git remote add origin
+gitk
+irb window
+git clone
+git pull origin ---
+git stash
+git stash pop
+git checkout file_name
+git checkout branch_ame
+git checkout -b branch_name
+git push origin ---  -f
+git commit --amend
+git commit -m " "
+git reset HEAD ~
+git rebase
+git merge
+git add --all
+apt-cyg install/uninstall/download/remove
+apt-cyg list ___ /list-all ___
+.bundle config
+cyg services: cygstart services.msc
+----------------------------------
+RVM basic commands
+
+rvm -v, rvm --version
+rvm list
+rvm install 2.0.0-p576
+rvm use 2.0.0@gearbubble --create
+rvm uninstall 2.0.0-p576
+rvm gemset list
+rvm list gemset
+
+----------------------------------------------
+
+Rails Basic commands
+
+rails -v
+rails s
+rails c
+rake routes | grep
+rake db:create all
+rake db:reset
+rake db:rollback
+rake db:migrate
+rake db:delete all
+ctrl C to stop server
+ctrl F, ctrl shift F, ctrl P, ctrl O  ---searching
+ctrl D to exit from binding.pry
+database.yml config
+environment_paths config
+database.rb config
+
+
+---------------------------------------------------
+SideKiq Commands
+
+sidekiq -q paperclip
+
+
+--------------------------------------
+issues
+
+installing 2.0.0-p576 patch error GH-432
+therubyracers gem, libv8 gem install error
+node.js versions not supported
+gem wdm can't be installed

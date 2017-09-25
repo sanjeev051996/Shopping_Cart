@@ -1,0 +1,11 @@
+LOG:  database system was shut down at 2017-10-08 20:01:49 IST
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  autovacuum launcher started
+LOG:  database system is ready to accept connections
+ERROR:  syntax error at or near "CREATE" at character 36
+STATEMENT:  CREATE USER rails PASSWORD 'rails'
+	CREATE USER rails PASSWORD 'rails';
+ERROR:  syntax error at or near "ALTER" at character 33
+STATEMENT:  ALTER USER rails WITH Superuser
+	ALTER USER rails WITH Superuser;
+FATAL:  database "shoppingcart_development" does not exist

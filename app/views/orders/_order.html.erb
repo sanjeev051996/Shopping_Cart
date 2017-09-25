@@ -12,6 +12,6 @@
       <td><%= order.created_at.to_date %></td>
       <td><%= order.status %></td>
       <td><%= order.transaction_id %></td>
-      <td><%= order.amount %></td>
+      <td><%= sprintf("%.2f", order.amount) %></td>
 </table>
 <%= link_to 'Order Details', order_path(order) %><br>

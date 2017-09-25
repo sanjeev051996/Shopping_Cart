@@ -58,5 +58,17 @@ RSpec.describe User, type: :model do
         User.find_by(name: "rocks").should == nil
       end
     end
+
+    context "associations with other models" do
+      it "have many orders" do
+        t = User.reflect_on_association(:orders)
+        expect(t.macro).to eq(:has_many)
+      end
+
+      it "have one cart" do
+        t = User.reflect_on_association(:cart)
+        expect(t.macro).to eq(:has_one)
+      end
+    end
   end
 end
