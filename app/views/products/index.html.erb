@@ -2,7 +2,7 @@
 <table>
   <tr>
     <th>NAME</th>
-    <th>Description</th>
+    <th>Image</th>
     <th>PRICE</th>
     <th>STOCK</th>
     <th colspan="3"></th>
@@ -10,7 +10,7 @@
   <% @products.each do |product| %>
     <tr>
       <td><%= product.name %></td>
-      <td><%= product.description %></td>
+      <td><%= image_tag product.avatar.url(:thumb) %></td>
       <td><%= product.price %></td>
       <td><%= product.stock %></td>
       <td><%= button_to 'Add to Cart', add_item_carts_path(product_id: product.id), method: :post %></td>
