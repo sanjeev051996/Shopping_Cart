@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
    def authenticate
     unless logged_in?
       flash[:danger] = "Please log in." 
-      redirect_to login_sessions_url
+      redirect_to login_users_url
     end
   end
 
@@ -20,5 +20,5 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  helper_method :current_user
+  helper_method :current_user #This method can be accessed in helpers
 end

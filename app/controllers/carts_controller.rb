@@ -17,8 +17,7 @@ class CartsController < ApplicationController
     else
       details = { cart_id: current_user.cart.id, product_id: @product.id, quantity: 1,
                   total_price: @product.price * (1 + @product.tax_rate / 100) }  
-      @cart_item = CartItem.new(details)
-      @cart_item.save
+      current_user.cart.cart_items.create(details)
     end 
     redirect_to display_carts_path
   end
@@ -34,8 +33,9 @@ class CartsController < ApplicationController
     elsif @cart_item.product.stock - params[:cart_item][:quantity].to_i <= 0
       flash[:danger] = "Product in stock is less than its quantity in cart"
     else
-      params[:cart_item][:total_price] = params[:cart_item][:quantity].to_i * @cart_item.product.price * (1 + @cart_item.product.tax_rate / 100)
-      unless @cart_item.update_attributes(cart_item_params)
+    	details = cart_item_params
+    	details[:total_price] = params[:cart_item][:quantity].to_i * @cart_item.product.price * (1 + @cart_item.product.tax_rate / 100)
+      unless @cart_item.update_attributes(details)
         flash[:danger] = @cart_item.errors.full_messages
       end
     end
@@ -52,6 +52,9 @@ class CartsController < ApplicationController
   def load_item
     @cart_item = CartItem.find(params[:item_id]) rescue nil
     if @cart_item.blank?
+      flash[:danger] = "This Item Does not exists"
+      redirect_to display_carts_path
+    elsif @cart_item.cart != current_user.cart
       flash[:danger] = "This Item Does not belongs to your cart"
       redirect_to display_carts_path
     end
@@ -73,6 +76,6 @@ class CartsController < ApplicationController
   end
 
   def cart_item_params
-    params.require(:cart_item).permit(:quantity, :total_price)
+    params.require(:cart_item).permit(:quantity)
   end
 end

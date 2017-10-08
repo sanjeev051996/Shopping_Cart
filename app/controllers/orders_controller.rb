@@ -21,13 +21,9 @@ class OrdersController < ApplicationController
   end
 
   def create
-    params[:order][:user_id] = current_user.id
-    @order = Order.new(order_params)
+    @order = current_user.orders.build
     perform_transaction
-    total_cost = @order.order_items.inject(0){ |cost, item| cost += item.total_price}
-    total_tax = @order.order_items.inject(0){ |cost, item| cost += item.price * item.tax_rate * item.quantity / 100 }
-    details = {amount: total_cost, tax: total_tax}
-    @order.update_attributes!(details)
+    redirect_to @order
   end
 
   def update
@@ -50,24 +46,25 @@ class OrdersController < ApplicationController
         @order.order_items.each do |item|
           item.product.update_attributes!(stock: item.product.stock - item.quantity)
         end
-        params[:order].merge!({ status: "paid", transaction_id: SecureRandom.hex(10), payment_date: DateTime.now })
-        @order.update_attributes!(order_params) 
+        details = order_params
+        details.merge!({ status: "paid", transaction_id: SecureRandom.hex(10), payment_date: DateTime.now })
+        @order.update_attributes!(details) 
         flash[:success] = "Your Payment transaction is successful. Order received successfully and will be delivered soon"
-        OrderMailer.order_email(@order).deliver_now
         redirect_to @order
       end
     rescue Exception => e
       flash[:danger] = e.message
       render 'payment'
     end
+    OrderMailer.order_email(@order).deliver_later
   end
 
   private
 
   def order_params
-    params.require(:order).permit(:status, :transaction_id, :amount, :address, :country,
-                                  :state, :zip_code, :card, :cvv, :card_expiry_date, :payment_mode,
-                                  :shipped_on, :delivered_on, :payment_date, :user_id, :tax)
+    params.require(:order).permit(:status, :address, :country, :state, :zip_code, :card, :cvv, 
+                                  :card_expiry_date, :payment_mode, :shipped_on, :delivered_on, 
+                                  :payment_date)
   end
 
   def load_order
@@ -97,19 +94,27 @@ class OrdersController < ApplicationController
   def perform_transaction
     begin
       Order.transaction do              
-        @order.save!
         current_user.cart.cart_items.each do |item|
           details = { order_id: @order.id, product_id: item.product_id, price: item.product.price,
                      tax_rate: item.product.tax_rate, quantity: item.quantity, total_price: item.product.price * item.quantity * (1 + item.product.tax_rate / 100) }
-          order_item = OrderItem.new(details)
-          order_item.save!
+          @order.order_items.build(details)
           item.destroy
         end
-        redirect_to @order
+        details = order_params
+        details.merge!({ amount: get_total_cost, tax: get_total_tax })
+        @order.update_attributes!(details)
       end
     rescue Exception => e
       flash[:danger] = e.message
       render 'new'
     end
+  end
+
+  def get_total_cost
+    total_cost = @order.order_items.inject(0){ |cost, item| cost += item.total_price}
+  end
+
+  def get_total_tax
+    total_tax = @order.order_items.inject(0){ |cost, item| cost += item.price * item.tax_rate * item.quantity / 100 }
   end
 end

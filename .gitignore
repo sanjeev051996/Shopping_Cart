@@ -12,13 +12,10 @@
 /db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
-/log/*
+/log
 !/log/.keep
 /tmp
-
-git ignore "*.log"
-git ignore "*.pid"
-git ignore "/tmp/cache/assets/sprockets/v3.0"
-git ignore "cred.txt"
+*.txt
 # add an exception (using !) to the preceding rule to track a specific file e.g. !package.json
-
+*.yml
+!database.yml
