@@ -5,4 +5,6 @@
 <p> If u are a new user, Register here for shopping </p>
 <%= link_to 'Register', new_user_path %>
 <p> otherwise </p>
-<%= link_to 'Login', login_users_path %>
+<%= link_to 'Login', login_users_path %><br>
+<p>Time now is <%= Time.now %> </p>
+<p> This page has been viewd <%= session[:visitors] %> times </p>

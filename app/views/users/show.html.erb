@@ -40,3 +40,6 @@
 <%= link_to 'View all products', products_path if current_user == @user %>
 <%= link_to 'Log out', logout_sessions_path, method: :delete  if current_user == @user %>
 <%= link_to 'Back to Admin Profile', profile_users_path unless current_user == @user %>
+<br>
+<p>Time now is <%= Time.now %> </p>
+<p> You have logged in <%= session[:times_visited] %> times </p>

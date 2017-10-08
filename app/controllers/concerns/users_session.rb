@@ -2,6 +2,8 @@ module UsersSession
 
   def log_in(user)
     session[:user_id] = user.id
+    session[:times_visited] ||= 0
+    session[:times_visited] += 1
   end
 
   # Returns true if the user is logged in, false otherwise.
