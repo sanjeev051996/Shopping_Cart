@@ -1,0 +1,38 @@
+<%= form_for(@product) do |f| %>
+  <%= render partial: 'shared/error_messages', locals: {object: @product} %>
+  <p>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </p>
+  <p>
+    <%= f.label :price %><br>
+    <%= f.text_field :price %>
+  </p>
+  <p>
+    <%= f.label :stock %><br>
+    <%= f.text_field :stock %>
+  </p>
+  <p>
+    <%= f.label :tax_rate %><br>
+    <%= f.text_field :tax_rate %>
+  </p>
+  <p>
+    <%= f.label :cod %><br>
+    <%= f.text_field :cod %>
+  </p>
+  <p>
+    <%= f.label :shipping_charge_rate %><br>
+    <%= f.text_field :shipping_charge_rate %>
+  </p>
+  <p>
+    <%= f.label :image %><br>
+    <%= f.file_field :avatar %>
+  </p>
+  <p>
+    <%= f.submit "Submit" %>
+  </p>
+<% end %>

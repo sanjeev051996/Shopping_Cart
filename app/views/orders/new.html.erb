@@ -1,0 +1,48 @@
+<div class="wrapper">
+<marquee behavior="alternate"><span class="marquee"><h2>Please confirm your order</h2></span></marquee>
+</div>
+<h2> Your Cart Contains </h2>
+<table>
+  <tr>
+    <th>Product</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>Tax_rate</th>
+    <th>Amount</th>
+    <th colspan="3"></th>
+  </tr>
+  <% current_user.cart.cart_items.each do |cart_item| %>
+    <tr>
+      <td><%= cart_item.product.name %></td>
+      <td><%= cart_item.quantity %></td>
+      <td><%= cart_item.product.price %></td>
+      <td><%= cart_item.product.tax_rate %></td>
+      <td><%= sprintf("%.2f", cart_item.total_price) %></td>
+  <% end %>
+</table>
+<br>
+<%= "Total order amount will be: #{sprintf("%.2f",current_user.cart.sub_total)}" %><br>
+<%= "Total order tax will be: #{sprintf("%.2f",current_user.cart.total_tax)}" %><br>
+<br>
+<%= link_to "Modify Cart", display_carts_path %><br>
+<%= form_for(@order) do |f| %>
+  <p>
+    <%= f.label :shipping_address %><br>
+    <%= f.text_field :address %>
+  </p>
+  <p>
+    <%= f.label :country %><br>
+    <%= f.text_field :country %>
+  </p>
+  <p>
+    <%= f.label :state %><br>
+    <%= f.text_field :state %>
+  </p>
+  <p>
+    <%= f.label :shipping_zip_code %><br>
+    <%= f.text_field :zip_code %>
+  </p>
+  <p>
+    <%= f.submit "confirm order" %>
+  </p>
+<% end %>

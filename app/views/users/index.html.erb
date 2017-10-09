@@ -1,0 +1,17 @@
+<h1>All Users</h1>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th colspan="3"></th>
+  </tr>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= user.name %></td>
+      <td><%= user.email %></td>
+      <td><%= link_to 'View Profile', user unless user.admin? %></td>
+      <td><%= link_to 'Remove user', user_path(user), method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+  <% end %>
+</table>
+<%= link_to 'Back to admin profile', profile_users_path %>

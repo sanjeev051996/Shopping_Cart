@@ -1,0 +1,38 @@
+<%= "Hey Admin!, create or update products" if current_user.admin? %>
+<p>
+  <strong>NAME:</strong>
+  <%= @product.name %>
+</p>
+<p>
+  <strong>DESCRIPTION:</strong>
+  <%= @product.description %>
+</p>
+<p>
+  <strong>PRICE:</strong>
+  <%= @product.price %>
+</p>
+<p>
+  <strong>STOCK:</strong>
+  <%= @product.stock %>
+</p>
+<p>
+  <strong>TAX RATE:</strong>
+  <%= @product.tax_rate %>
+</p>
+<p>
+  <strong>COD:</strong>
+  <%= @product.cod %>
+</p>
+<p>
+  <strong>Shipping Charge Rate:</strong>
+  <%= @product.shipping_charge_rate %>
+</p>
+<p>
+  <strong>Image:</strong><br>
+  <%= image_tag @product.avatar.url(:medium) %>
+</p>
+<%= button_to 'Add to Cart', add_item_carts_path(product_id: @product.id), method: :post %>
+<%= link_to 'products List', products_path %>
+<%= link_to 'Update product', edit_product_path if current_user.admin? %>
+<%= link_to 'Go to cart', display_carts_path %>
+<%= link_to 'Back to profile', profile_users_path %>

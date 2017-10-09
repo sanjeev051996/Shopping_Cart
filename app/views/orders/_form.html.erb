@@ -1,0 +1,19 @@
+<h2> Update Order Status </h2>
+<%= form_for @order do |f| %>
+<p>
+  <%= f.label :status %><br>
+  <%= f.text_field :status %>
+</p>
+<p>
+  <%= f.label :shipped_on %><br>
+  <%= f.text_field :shipped_on %>
+</p>
+<p>
+  <%= f.label :delivered_on %><br>
+  <%= f.text_field :delivered_on %>
+</p>
+<p>
+  <%= f.submit "Update status" %>
+</p>
+<% end %>
+<%= link_to 'Back', order_path(@order) %><br>
